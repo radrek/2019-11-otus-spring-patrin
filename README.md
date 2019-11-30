@@ -1,2 +1,8 @@
-# -2019-11-otus-spring-patrin
-Otus homework
+# 2019-11-otus-spring-patrin
+ФИО: Патрин Владислав Михайлович<br />
+Курс: Разработчик на Spring Framework<br />
+Группа: spring-2019-11<br />
+Список выполненных работ:<br />
+<ul>
+<li>Работа 1</li>
+</ul>
