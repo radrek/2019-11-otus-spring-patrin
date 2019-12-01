@@ -4,6 +4,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean name="QuestionReader" class="ru.otus.homework.service.question.reader.CsvQuestionReader">
+        <constructor-arg name="csvPath" value="/questions.csv"/>
+    </bean>
 
 
 </beans>
