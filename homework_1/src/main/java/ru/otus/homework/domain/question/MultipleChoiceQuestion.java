@@ -9,6 +9,9 @@ public class MultipleChoiceQuestion implements Question {
     private static final QuestionType TYPE = QuestionType.MULTIPLE_CHOICE;
 
     @CsvBindByName
+    private int number;
+
+    @CsvBindByName
     private String question;
 
     @CsvBindAndSplitByName(elementType = String.class, splitOn = "\\+\\+")
@@ -18,10 +21,20 @@ public class MultipleChoiceQuestion implements Question {
     private String correctAnswer;
 
     @Override
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    @Override
     public QuestionType getType() {
         return TYPE;
     }
 
+    @Override
     public String getQuestion() {
         return question;
     }
@@ -38,6 +51,7 @@ public class MultipleChoiceQuestion implements Question {
         this.answers = answers;
     }
 
+    @Override
     public String getCorrectAnswer() {
         return correctAnswer;
     }
@@ -48,8 +62,9 @@ public class MultipleChoiceQuestion implements Question {
 
     @Override
     public String toString() {
-        return "QuestionImpl{" +
-                "question='" + question + '\'' +
+        return "MultipleChoiceQuestion{" +
+                "number=" + number +
+                ", question='" + question + '\'' +
                 ", answers=" + answers +
                 ", correctAnswer='" + correctAnswer + '\'' +
                 '}';

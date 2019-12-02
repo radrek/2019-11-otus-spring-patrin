@@ -8,5 +8,8 @@
         <constructor-arg name="csvPath" value="/questions.csv"/>
     </bean>
 
+    <bean name="QuestionService" class="ru.otus.homework.service.question.QuestionService">
+        <constructor-arg name="reader" ref="QuestionReader"/>
+    </bean>
 
 </beans>
