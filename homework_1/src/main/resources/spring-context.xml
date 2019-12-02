@@ -12,4 +12,8 @@
         <constructor-arg name="reader" ref="QuestionReader"/>
     </bean>
 
+    <bean name="QuestionController" class="ru.otus.homework.controller.question.QuestionControllerImpl">
+        <constructor-arg name="questionService" ref="QuestionService"/>
+    </bean>
+
 </beans>
