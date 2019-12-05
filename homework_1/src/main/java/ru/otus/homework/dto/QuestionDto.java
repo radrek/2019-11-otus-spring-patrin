@@ -45,6 +45,14 @@ public class QuestionDto {
         this.answers = answers;
     }
 
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
     @Override
     public String toString() {
         return "QuestionDto{" +
