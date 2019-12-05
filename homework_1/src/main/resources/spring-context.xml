@@ -23,4 +23,12 @@
     <bean name="CheckerController" class="ru.otus.homework.controller.checker.CheckerControllerImpl">
         <constructor-arg name="checkerService" ref="CheckerService"/>
     </bean>
+
+    <bean name="ConsoleUtils" class="ru.otus.homework.ui.util.ConsoleUtils"/>
+
+    <bean name="UserInterface" class="ru.otus.homework.ui.UserInterfaceImpl">
+        <constructor-arg name="questionController" ref="QuestionController"/>
+        <constructor-arg name="checkerController" ref="CheckerController"/>
+        <constructor-arg name="consoleUtils" ref="ConsoleUtils"/>
+    </bean>
 </beans>
