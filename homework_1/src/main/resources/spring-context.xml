@@ -16,4 +16,11 @@
         <constructor-arg name="questionService" ref="QuestionService"/>
     </bean>
 
+    <bean name="CheckerService" class="ru.otus.homework.service.checker.CheckerService">
+        <constructor-arg name="questionService" ref="QuestionService"/>
+    </bean>
+
+    <bean name="CheckerController" class="ru.otus.homework.controller.checker.CheckerControllerImpl">
+        <constructor-arg name="checkerService" ref="CheckerService"/>
+    </bean>
 </beans>

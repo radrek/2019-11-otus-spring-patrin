@@ -28,7 +28,7 @@ public class QuestionService {
                 .collect(Collectors.toList());
     }
 
-    private List<Question> getQuestions() {
+    public List<Question> getQuestions() {
         List<Question> questions = reader.readQuestions();
         if (questions.isEmpty()) {
             LOGGER.warn("Question collection is empty");
