@@ -63,17 +63,17 @@ public class UserInterfaceImpl implements UserInterface {
     }
 
     private void showGreeting() {
-        System.out.println("Hello my friend.");
+        System.out.println("Добро пожаловать в опросник!");
     }
 
     private User getUser() {
-        String firstName = getPartName("first");
-        String secondName = getPartName("second");
+        String firstName = getPartName("Имя");
+        String secondName = getPartName("Фамилию");
         return new User(firstName, secondName);
     }
 
     private String getPartName(String part) {
-        String partNameQuestion = String.format("Write your %s name: ", part);
+        String partNameQuestion = String.format("Напишите %s: ", part);
         return consoleUtils.askUserAndGetNotBlankAnswer(partNameQuestion, in);
     }
 

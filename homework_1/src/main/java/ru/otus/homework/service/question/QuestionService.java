@@ -1,5 +1,6 @@
 package ru.otus.homework.service.question;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.otus.homework.dto.QuestionDto;
@@ -30,7 +31,7 @@ public class QuestionService {
 
     public List<Question> getQuestions() {
         List<Question> questions = reader.readQuestions();
-        if (questions.isEmpty()) {
+        if (CollectionUtils.isEmpty(questions)) {
             LOGGER.warn("Question collection is empty");
             return Collections.emptyList();
         }

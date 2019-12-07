@@ -26,7 +26,7 @@ public class CheckerControllerImpl implements CheckerController {
     }
 
     private void checkOnErrors(List<AnswerDto> answers) {
-        if(CollectionUtils.isEmpty(answers)){
+        if (CollectionUtils.isEmpty(answers)) {
             LOGGER.warn("Answers can't blank");
             throw new IllegalArgumentException("Answers can't blank");
         }
