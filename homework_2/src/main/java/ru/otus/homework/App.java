@@ -1,10 +1,10 @@
 package ru.otus.homework;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import ru.otus.homework.ui.UserInterface;
 
+@PropertySource("classpath:app.properties")
 @Configuration
 @ComponentScan
 public class App {
@@ -12,5 +12,10 @@ public class App {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
         UserInterface userInterface = context.getBean(UserInterface.class);
         userInterface.start();
+    }
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInApp() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 }

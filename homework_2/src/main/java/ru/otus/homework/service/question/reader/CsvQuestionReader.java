@@ -3,6 +3,7 @@ package ru.otus.homework.service.question.reader;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.question.Question;
@@ -19,7 +20,7 @@ public class CsvQuestionReader implements QuestionReader {
 
     private final String csvPath;
 
-    public CsvQuestionReader(String csvPath) {
+    public CsvQuestionReader(@Value("${csv.path}")String csvPath) {
         this.csvPath = csvPath;
     }
 
