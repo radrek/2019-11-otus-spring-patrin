@@ -1,11 +1,15 @@
 package ru.otus.homework;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import ru.otus.homework.ui.UserInterface;
 
+@Configuration
+@ComponentScan
 public class App {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
         UserInterface userInterface = context.getBean(UserInterface.class);
         userInterface.start();
     }

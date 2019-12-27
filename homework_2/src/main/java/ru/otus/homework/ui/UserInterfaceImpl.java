@@ -3,6 +3,7 @@ package ru.otus.homework.ui;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.controller.checker.CheckerController;
 import ru.otus.homework.controller.question.QuestionController;
 import ru.otus.homework.dto.AnswerDto;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class UserInterfaceImpl implements UserInterface {
     private static final Logger LOGGER = LogManager.getLogger(UserInterfaceImpl.class);
 

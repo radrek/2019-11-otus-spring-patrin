@@ -3,6 +3,7 @@ package ru.otus.homework.service.checker;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.question.Question;
 import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.ResultDto;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class CheckerService {
     private static final Logger LOGGER = LogManager.getLogger(CheckerService.class);
 

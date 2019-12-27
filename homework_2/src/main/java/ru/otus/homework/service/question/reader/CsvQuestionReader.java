@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.domain.question.Question;
 import ru.otus.homework.domain.question.MultipleChoiceQuestion;
 
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
+@Service
 public class CsvQuestionReader implements QuestionReader {
 
     private static final Logger LOGGER = LogManager.getLogger(CsvQuestionReader.class);

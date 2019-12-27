@@ -3,12 +3,14 @@ package ru.otus.homework.controller.checker;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Controller;
 import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.ResultDto;
 import ru.otus.homework.service.checker.CheckerService;
 
 import java.util.List;
 
+@Controller
 public class CheckerControllerImpl implements CheckerController {
     private static final Logger LOGGER = LogManager.getLogger(CheckerControllerImpl.class);
 
