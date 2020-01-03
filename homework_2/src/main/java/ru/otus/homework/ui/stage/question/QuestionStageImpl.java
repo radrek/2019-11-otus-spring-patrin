@@ -6,25 +6,22 @@ import org.apache.logging.log4j.Logger;
 import ru.otus.homework.controller.question.QuestionController;
 import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.QuestionDto;
+import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.question.additional.QuestionType;
-import ru.otus.homework.ui.util.ConsoleUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Scanner;
 
 public class QuestionStageImpl implements QuestionStage {
     private static final Logger LOGGER = LogManager.getLogger(QuestionStageImpl.class);
 
     private final QuestionController questionController;
-    private final ConsoleUtils consoleUtils;
-    private final Scanner in;
+    private final Mediator mediator;
 
-    public QuestionStageImpl(QuestionController questionController, ConsoleUtils consoleUtils, Scanner in) {
+    public QuestionStageImpl(QuestionController questionController, Mediator mediator) {
         this.questionController = questionController;
-        this.consoleUtils = consoleUtils;
-        this.in = in;
+        this.mediator = mediator;
     }
 
     @Override
@@ -58,30 +55,26 @@ public class QuestionStageImpl implements QuestionStage {
     }
 
     private AnswerDto getUserAnswer(QuestionDto question) {
-        askQuestion(String.format("%d. %s", question.getNumber(), question.getQuestion()));
+        mediator.askWithoutAnswer(String.format("%d. %s", question.getNumber(), question.getQuestion()));
         showAnswers(question.getAnswers());
         String userAnswer = getUserAnswer(question.getAnswers());
         return new AnswerDto(question.getNumber(), userAnswer);
     }
 
-    private void askQuestion(String question) {
-        System.out.println(question);
-    }
-
     private void showAnswers(List<String> answers) {
-        System.out.println("Ниже представлены варианты ответов: ");
+        mediator.say("Ниже представлены варианты ответов: ");
         answers.forEach(answer ->
-                System.out.println(String.format("\t-- %s", answer)));
+                mediator.say(String.format("\t-- %s", answer)));
     }
 
     private String getUserAnswer(Collection<String> answers) {
         String userAnswer;
         while (true) {
-            userAnswer = consoleUtils.askUserAndGetNotBlankAnswer("Ответ: ", in);
+            userAnswer = mediator.KeepAskingUntilGetAnswer("Ответ: ");
             if (matchUserAnswer(answers, userAnswer)) {
                 return userAnswer;
             } else {
-                System.out.println("Нет совпадений, попробуйте еще раз!");
+                mediator.say("Нет совпадений, попробуйте еще раз!");
             }
         }
     }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.homework.controller.checker.CheckerController;
 import ru.otus.homework.controller.question.QuestionController;
 import ru.otus.homework.dto.AnswerDto;
+import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.greeting.GreetingStage;
 import ru.otus.homework.ui.stage.greeting.GreetingStageImpl;
 import ru.otus.homework.ui.stage.question.QuestionStage;
@@ -15,10 +16,8 @@ import ru.otus.homework.ui.stage.result.ResultStageImpl;
 import ru.otus.homework.ui.stage.user.UserStage;
 import ru.otus.homework.ui.stage.user.UserStageImpl;
 import ru.otus.homework.ui.stage.user.additional.User;
-import ru.otus.homework.ui.util.ConsoleUtils;
 
 import java.util.List;
-import java.util.Scanner;
 
 @Service
 public class UserInterfaceImpl implements UserInterface {
@@ -26,15 +25,13 @@ public class UserInterfaceImpl implements UserInterface {
 
     private final QuestionController questionController;
     private final CheckerController checkerController;
-    private final ConsoleUtils consoleUtils;
-    private final Scanner in;
+    private final Mediator mediator;
 
     public UserInterfaceImpl(QuestionController questionController, CheckerController checkerController,
-                             ConsoleUtils consoleUtils) {
+                             Mediator mediator) {
         this.questionController = questionController;
         this.checkerController = checkerController;
-        this.consoleUtils = consoleUtils;
-        this.in = new Scanner(System.in);
+        this.mediator = mediator;
     }
 
     @Override
@@ -48,25 +45,25 @@ public class UserInterfaceImpl implements UserInterface {
 
     private void showResults(User user, List<AnswerDto> answers) {
         LOGGER.debug("Show results (answers count = {})", answers.size());
-        ResultStage resultStage = new ResultStageImpl(checkerController);
+        ResultStage resultStage = new ResultStageImpl(checkerController, mediator);
         resultStage.checkAnswersOnCorrect(user, answers);
     }
 
     private List<AnswerDto> askQuestions() {
         LOGGER.debug("Ask questions");
-        QuestionStage questionStage = new QuestionStageImpl(questionController, consoleUtils, in);
+        QuestionStage questionStage = new QuestionStageImpl(questionController, mediator);
         return questionStage.askQuestions();
     }
 
     private void showGreeting() {
         LOGGER.debug("Show greeting");
-        GreetingStage greetingStage = new GreetingStageImpl();
+        GreetingStage greetingStage = new GreetingStageImpl(mediator);
         greetingStage.showGreeting();
     }
 
     private User getUser() {
         LOGGER.debug("Get user info");
-        UserStage userStage = new UserStageImpl(consoleUtils, in);
+        UserStage userStage = new UserStageImpl(mediator);
         return userStage.getUser();
     }
 }

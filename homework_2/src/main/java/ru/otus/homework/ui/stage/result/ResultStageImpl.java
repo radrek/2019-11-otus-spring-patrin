@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ru.otus.homework.controller.checker.CheckerController;
 import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.ResultDto;
+import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.user.additional.User;
 
 import java.util.List;
@@ -13,9 +14,11 @@ public class ResultStageImpl implements ResultStage {
     private static final Logger LOGGER = LogManager.getLogger(ResultStageImpl.class);
 
     private final CheckerController checkerController;
+    private final Mediator mediator;
 
-    public ResultStageImpl(CheckerController checkerController) {
+    public ResultStageImpl(CheckerController checkerController, Mediator mediator) {
         this.checkerController = checkerController;
+        this.mediator = mediator;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class ResultStageImpl implements ResultStage {
     }
 
     private void showStartMessage(User user) {
-        System.out.println(
+        mediator.say(
                 String.format("%s %s ваши результаты ответов представлены ниже: ",
                         user.getFirstName(), user.getSecondName()));
     }
@@ -69,7 +72,7 @@ public class ResultStageImpl implements ResultStage {
                             result = "Вопрос не был найден";
                             break;
                     }
-                    System.out.println(String.format("%d. %s", resultDto.getNumber(), result));
+                    mediator.say(String.format("%d. %s", resultDto.getNumber(), result));
                 });
     }
 }
