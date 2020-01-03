@@ -1,4 +1,4 @@
-package ru.otus.homework.ui.user;
+package ru.otus.homework.ui.stage.user.additional;
 
 public class User {
     private final String firstName;
