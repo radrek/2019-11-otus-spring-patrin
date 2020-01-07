@@ -1,7 +1,9 @@
 package ru.otus.homework;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import ru.otus.homework.ui.UserInterface;
 
 @PropertySource("classpath:app.properties")
@@ -17,5 +19,13 @@ public class App {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInApp() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("/i18n/messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }
