@@ -50,9 +50,7 @@ public class ResultStageImpl implements ResultStage {
     }
 
     private void showStartMessage(User user) {
-        mediator.say(
-                String.format("%s %s ваши результаты ответов представлены ниже: ",
-                        user.getFirstName(), user.getSecondName()));
+        mediator.say("result.message", user.getFirstName(), user.getSecondName());
     }
 
     private void showResults(List<ResultDto> resultDtos) {
@@ -62,17 +60,17 @@ public class ResultStageImpl implements ResultStage {
                     String result;
                     switch (resultDto.getStatus()) {
                         case OK:
-                            result = "Правильно";
+                            result = "result.correct";
                             break;
                         case FAIL:
-                            result = "Неправильно";
+                            result = "result.fail";
                             break;
                         case QUESTION_NOT_FOUND:
                         default:
-                            result = "Вопрос не был найден";
+                            result = "result.question.unknown";
                             break;
                     }
-                    mediator.say(String.format("%d. %s", resultDto.getNumber(), result));
+                    mediator.say(result, resultDto.getNumber());
                 });
     }
 }

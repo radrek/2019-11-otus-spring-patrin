@@ -17,13 +17,12 @@ public class UserStageImpl implements UserStage {
     @Override
     public User getUser() {
         LOGGER.info("Get user info");
-        String firstName = getPartName("Имя");
-        String secondName = getPartName("Фамилию");
+        String firstName = getPartName("user.name.first");
+        String secondName = getPartName("user.name.second");
         return new User(firstName, secondName);
     }
 
     private String getPartName(String part) {
-        String partNameQuestion = String.format("Напишите %s: ", part);
-        return mediator.KeepAskingUntilGetAnswer(partNameQuestion);
+        return mediator.KeepAskingUntilGetAnswer(part);
     }
 }

@@ -16,6 +16,6 @@ public class GreetingStageImpl implements GreetingStage {
     @Override
     public void showGreeting() {
         LOGGER.info("Show greeting");
-        mediator.say("Добро пожаловать в опросник!");
+        mediator.say("greeting.hello");
     }
 }

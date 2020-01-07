@@ -55,26 +55,26 @@ public class QuestionStageImpl implements QuestionStage {
     }
 
     private AnswerDto getUserAnswer(QuestionDto question) {
-        mediator.askWithoutAnswer(String.format("%d. %s", question.getNumber(), question.getQuestion()));
+        mediator.askWithoutAnswer("question.ask", question.getNumber(), question.getQuestion());
         showAnswers(question.getAnswers());
         String userAnswer = getUserAnswer(question.getAnswers());
         return new AnswerDto(question.getNumber(), userAnswer);
     }
 
     private void showAnswers(List<String> answers) {
-        mediator.say("Ниже представлены варианты ответов: ");
+        mediator.say("question.answers.message");
         answers.forEach(answer ->
-                mediator.say(String.format("\t-- %s", answer)));
+                mediator.say("question.answers.options", answer));
     }
 
     private String getUserAnswer(Collection<String> answers) {
         String userAnswer;
         while (true) {
-            userAnswer = mediator.KeepAskingUntilGetAnswer("Ответ: ");
+            userAnswer = mediator.KeepAskingUntilGetAnswer("question.answers.answer");
             if (matchUserAnswer(answers, userAnswer)) {
                 return userAnswer;
             } else {
-                mediator.say("Нет совпадений, попробуйте еще раз!");
+                mediator.say("question.answers.error");
             }
         }
     }
