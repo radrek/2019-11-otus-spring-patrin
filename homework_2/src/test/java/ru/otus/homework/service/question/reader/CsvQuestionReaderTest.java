@@ -4,19 +4,21 @@ import org.junit.jupiter.api.Test;
 import ru.otus.homework.domain.question.Question;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CsvQuestionReaderTest {
-    public static final String TEST_CSV_PATH = "test.csv";
+    public static final String TEST_CSV_PATH = "test_%s.csv";
+    public static final String DEFAULT_LANGUAGE = "RU";
 
     private CsvQuestionReader csvQuestionReader;
 
     @Test
     void shouldReturnEmptyQuestionCollectionIfThrowException() {
-        csvQuestionReader = new CsvQuestionReader("");
+        csvQuestionReader = new CsvQuestionReader("", DEFAULT_LANGUAGE);
 
-        List<Question> questions = csvQuestionReader.readQuestions();
+        List<Question> questions = csvQuestionReader.readQuestions(Locale.ENGLISH);
 
         assertThat(questions).as("Check collection on empty if method throw exception")
                 .isNull();
@@ -24,9 +26,10 @@ class CsvQuestionReaderTest {
 
     @Test
     void shouldReturnCorrectQuestionCollection() {
-        csvQuestionReader = new CsvQuestionReader(TEST_CSV_PATH);
+        csvQuestionReader = new CsvQuestionReader(TEST_CSV_PATH, DEFAULT_LANGUAGE);
+        Locale locale = new Locale(DEFAULT_LANGUAGE);
 
-        List<Question> questions = csvQuestionReader.readQuestions();
+        List<Question> questions = csvQuestionReader.readQuestions(locale);
 
         String rowDescriptionTemplate = "Contains %s row number, question and correct answer";
         assertThat(questions).as("Check collection on not empty")

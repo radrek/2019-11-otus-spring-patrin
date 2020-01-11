@@ -11,6 +11,7 @@ import ru.otus.homework.service.checker.additional.Status;
 import ru.otus.homework.service.question.QuestionService;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,9 +25,9 @@ public class CheckerService {
         this.questionService = questionService;
     }
 
-    public List<ResultDto> checkAnswersOnCorrect(List<AnswerDto> answers) {
+    public List<ResultDto> checkAnswersOnCorrect(List<AnswerDto> answers, Locale locale) {
         LOGGER.info("Check answers on correct");
-        final List<Question> questions = questionService.getQuestions();
+        final List<Question> questions = questionService.getQuestions(locale);
         return answers.stream()
                 .filter(answer -> answer != null && StringUtils.isNotBlank(answer.getAnswer()))
                 .map(answer -> {

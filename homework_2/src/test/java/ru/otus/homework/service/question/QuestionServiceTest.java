@@ -12,6 +12,7 @@ import ru.otus.homework.service.question.reader.QuestionReader;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -32,9 +33,9 @@ class QuestionServiceTest {
 
     @Test
     void shouldReturnEmptyQuestionCollectionForEmptyCollection() {
-        when(reader.readQuestions()).thenReturn(Collections.emptyList());
+        when(reader.readQuestions(Locale.ROOT)).thenReturn(Collections.emptyList());
 
-        List<Question> questions = questionService.getQuestions();
+        List<Question> questions = questionService.getQuestions(Locale.ROOT);
 
         assertThat(questions).as("Check collection on empty if reader return empty collection")
                 .isEmpty();
@@ -42,9 +43,9 @@ class QuestionServiceTest {
 
     @Test
     void shouldReturnEmptyQuestionCollectionForNull() {
-        when(reader.readQuestions()).thenReturn(null);
+        when(reader.readQuestions(Locale.ROOT)).thenReturn(null);
 
-        List<Question> questions = questionService.getQuestions();
+        List<Question> questions = questionService.getQuestions(Locale.ROOT);
 
         assertThat(questions).as("Check collection on empty if reader return null")
                 .isEmpty();
@@ -55,9 +56,9 @@ class QuestionServiceTest {
         MultipleChoiceQuestion multipleChoiceQuestion = createMultipleChoiceQuestionWithValue();
         List<Question> readerQuestions = List.of(multipleChoiceQuestion, new MultipleChoiceQuestion(),
                 new MultipleChoiceQuestion());
-        when(reader.readQuestions()).thenReturn(readerQuestions);
+        when(reader.readQuestions(Locale.ROOT)).thenReturn(readerQuestions);
 
-        List<Question> questions = questionService.getQuestions();
+        List<Question> questions = questionService.getQuestions(Locale.ROOT);
 
         assertThat(questions).as("Check collection size and contains specific question object")
                 .hasSize(3)
@@ -85,9 +86,9 @@ class QuestionServiceTest {
         MultipleChoiceQuestion question2 =
                 createMultipleChoiceQuestion(1, questionStr2, "Отлично");
         List<Question> readerQuestions = List.of(question1, question2);
-        when(reader.readQuestions()).thenReturn(readerQuestions);
+        when(reader.readQuestions(Locale.ROOT)).thenReturn(readerQuestions);
 
-        List<QuestionDto> questionDtos = questionService.getQuestionDtos();
+        List<QuestionDto> questionDtos = questionService.getQuestionDtos(Locale.ROOT);
 
         assertThat(questionDtos).as("Check dto collection size and contains specific questions: '%s', '%s'",
                 QUESTION, questionStr2)
@@ -98,9 +99,9 @@ class QuestionServiceTest {
 
     @Test
     void shouldReturnEmptyDtoQuestionCollectionForEmptyCollection() {
-        when(reader.readQuestions()).thenReturn(Collections.emptyList());
+        when(reader.readQuestions(Locale.ROOT)).thenReturn(Collections.emptyList());
 
-        List<QuestionDto> questionDtos = questionService.getQuestionDtos();
+        List<QuestionDto> questionDtos = questionService.getQuestionDtos(Locale.ROOT);
 
         assertThat(questionDtos).as("Check collection on empty if reader return empty collection")
                 .isEmpty();
@@ -108,9 +109,9 @@ class QuestionServiceTest {
 
     @Test
     void shouldReturnEmptyDtoQuestionCollectionForNull() {
-        when(reader.readQuestions()).thenReturn(null);
+        when(reader.readQuestions(Locale.ROOT)).thenReturn(null);
 
-        List<QuestionDto> questionDtos = questionService.getQuestionDtos();
+        List<QuestionDto> questionDtos = questionService.getQuestionDtos(Locale.ROOT);
 
         assertThat(questionDtos).as("Check collection on empty if reader return null")
                 .isEmpty();

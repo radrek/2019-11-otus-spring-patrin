@@ -13,6 +13,7 @@ import ru.otus.homework.service.checker.additional.Status;
 import ru.otus.homework.service.question.QuestionService;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -43,7 +44,7 @@ class CheckerServiceTest {
     @Test
     void shouldReturnCorrectResultDtoForNotFoundQuestion() {
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers);
+        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
 
         assertThat(results).as("Check result collection on correct if question not found for answer")
                 .hasSize(1)
@@ -55,9 +56,9 @@ class CheckerServiceTest {
     void shouldReturnCorrectResultDtoForCorrectAnswer() {
         when(question.getCorrectAnswer()).thenReturn(ANSWER);
         when(question.getNumber()).thenReturn(NUMBER);
-        when(questionService.getQuestions()).thenReturn(List.of(question));
+        when(questionService.getQuestions(Locale.ROOT)).thenReturn(List.of(question));
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers);
+        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
 
         assertThat(results).as("Check result collection on correct if question  found and answer is correct")
                 .hasSize(1)
@@ -69,9 +70,9 @@ class CheckerServiceTest {
     void shouldReturnCorrectResultDtoForNotCorrectAnswer() {
         when(question.getCorrectAnswer()).thenReturn("Not correct");
         when(question.getNumber()).thenReturn(NUMBER);
-        when(questionService.getQuestions()).thenReturn(List.of(question));
+        when(questionService.getQuestions(Locale.ROOT)).thenReturn(List.of(question));
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers);
+        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
 
         assertThat(results).as("Check result collection on correct if question found and answer is not correct")
                 .hasSize(1)
@@ -84,7 +85,7 @@ class CheckerServiceTest {
         List<AnswerDto> answers = List.of(new AnswerDto(NUMBER, ANSWER),
                 new AnswerDto(2, "Нормасик"));
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers);
+        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
 
         assertThat(results).as("Check result collection on correct if questions not found")
                 .hasSize(2)

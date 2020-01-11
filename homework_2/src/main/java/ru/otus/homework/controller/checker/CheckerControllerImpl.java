@@ -9,6 +9,7 @@ import ru.otus.homework.dto.ResultDto;
 import ru.otus.homework.service.checker.CheckerService;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class CheckerControllerImpl implements CheckerController {
@@ -21,10 +22,10 @@ public class CheckerControllerImpl implements CheckerController {
     }
 
     @Override
-    public List<ResultDto> checkAnswersOnCorrect(List<AnswerDto> answers) {
+    public List<ResultDto> checkAnswersOnCorrect(List<AnswerDto> answers, Locale locale) {
         LOGGER.info("Check answers on correct");
         checkOnErrors(answers);
-        return checkerService.checkAnswersOnCorrect(answers);
+        return checkerService.checkAnswersOnCorrect(answers, locale);
     }
 
     private void checkOnErrors(List<AnswerDto> answers) {

@@ -10,6 +10,7 @@ import ru.otus.homework.service.question.reader.QuestionReader;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,17 +23,17 @@ public class QuestionService {
         this.reader = reader;
     }
 
-    public List<QuestionDto> getQuestionDtos() {
+    public List<QuestionDto> getQuestionDtos(Locale locale) {
         LOGGER.info("Get all questions");
-        List<Question> questions = getQuestions();
+        List<Question> questions = getQuestions(locale);
 
         return questions.stream()
                 .map(QuestionDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<Question> getQuestions() {
-        List<Question> questions = reader.readQuestions();
+    public List<Question> getQuestions(Locale locale) {
+        List<Question> questions = reader.readQuestions(locale);
         if (CollectionUtils.isEmpty(questions)) {
             LOGGER.warn("Question collection is empty");
             return Collections.emptyList();

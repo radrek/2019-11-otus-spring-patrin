@@ -7,6 +7,7 @@ import ru.otus.homework.dto.QuestionDto;
 import ru.otus.homework.service.question.QuestionService;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class QuestionControllerImpl implements QuestionController {
@@ -19,8 +20,8 @@ public class QuestionControllerImpl implements QuestionController {
     }
 
     @Override
-    public List<QuestionDto> getQuestions() {
+    public List<QuestionDto> getQuestions(Locale locale) {
         LOGGER.info("Get all questions");
-         return questionService.getQuestionDtos();
+         return questionService.getQuestionDtos(locale);
     }
 }
