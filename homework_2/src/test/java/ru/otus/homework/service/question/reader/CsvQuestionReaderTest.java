@@ -40,4 +40,21 @@ class CsvQuestionReaderTest {
                 .as(rowDescriptionTemplate, "second")
                 .contains(2, "Удачно?", "Да");
     }
+
+    @Test
+    void shouldReturnDefaultQuestionCollectionForNotAllowedLocale() {
+        csvQuestionReader = new CsvQuestionReader(TEST_CSV_PATH, DEFAULT_LANGUAGE);
+        Locale locale = Locale.JAPANESE;
+
+        List<Question> questions = csvQuestionReader.readQuestions(locale);
+
+        String rowDescriptionTemplate = "Contains %s row number, question and correct answer";
+        assertThat(questions).as("Check collection on not empty for not allowed locale = %s", locale)
+                .hasSize(2)
+                .flatExtracting(Question::getNumber, Question::getQuestion, Question::getCorrectAnswer)
+                .as(rowDescriptionTemplate, "first")
+                .contains(1, "Как дела?", "Хорошо")
+                .as(rowDescriptionTemplate, "second")
+                .contains(2, "Удачно?", "Да");
+    }
 }
