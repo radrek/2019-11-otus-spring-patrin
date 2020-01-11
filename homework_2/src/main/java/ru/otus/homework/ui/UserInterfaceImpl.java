@@ -3,19 +3,12 @@ package ru.otus.homework.ui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import ru.otus.homework.controller.checker.CheckerController;
-import ru.otus.homework.controller.question.QuestionController;
 import ru.otus.homework.dto.AnswerDto;
-import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.greeting.GreetingStage;
-import ru.otus.homework.ui.stage.greeting.GreetingStageImpl;
 import ru.otus.homework.ui.stage.language.LanguageStage;
 import ru.otus.homework.ui.stage.question.QuestionStage;
-import ru.otus.homework.ui.stage.question.QuestionStageImpl;
 import ru.otus.homework.ui.stage.result.ResultStage;
-import ru.otus.homework.ui.stage.result.ResultStageImpl;
 import ru.otus.homework.ui.stage.user.UserStage;
-import ru.otus.homework.ui.stage.user.UserStageImpl;
 import ru.otus.homework.ui.stage.user.additional.User;
 
 import java.util.List;
@@ -24,17 +17,22 @@ import java.util.List;
 public class UserInterfaceImpl implements UserInterface {
     private static final Logger LOGGER = LogManager.getLogger(UserInterfaceImpl.class);
 
-    private final QuestionController questionController;
-    private final CheckerController checkerController;
-    private final Mediator mediator;
     private final LanguageStage languageStage;
+    private final GreetingStage greetingStage;
+    private final UserStage userStage;
+    private final QuestionStage questionStage;
+    private final ResultStage resultStage;
 
-    public UserInterfaceImpl(QuestionController questionController, CheckerController checkerController,
-                             Mediator mediator, LanguageStage languageStage) {
-        this.questionController = questionController;
-        this.checkerController = checkerController;
-        this.mediator = mediator;
+    public UserInterfaceImpl(LanguageStage languageStage,
+                             GreetingStage greetingStage,
+                             UserStage userStage,
+                             QuestionStage questionStage,
+                             ResultStage resultStage) {
         this.languageStage = languageStage;
+        this.greetingStage = greetingStage;
+        this.userStage = userStage;
+        this.questionStage = questionStage;
+        this.resultStage = resultStage;
     }
 
     @Override
@@ -54,13 +52,21 @@ public class UserInterfaceImpl implements UserInterface {
 
     private void showGreeting() {
         LOGGER.debug("Show greeting");
-        GreetingStage greetingStage = new GreetingStageImpl(mediator);
         greetingStage.showGreeting();
     }
 
     private User getUser() {
         LOGGER.debug("Get user info");
-        UserStage userStage = new UserStageImpl(mediator);
         return userStage.getUser();
+    }
+
+    private List<AnswerDto> askQuestions() {
+        LOGGER.debug("Ask questions");
+        return questionStage.askQuestions();
+    }
+
+    private void showResults(User user, List<AnswerDto> answers) {
+        LOGGER.debug("Show results (answers count = {})", answers.size());
+        resultStage.checkAnswersOnCorrect(user, answers);
     }
 }

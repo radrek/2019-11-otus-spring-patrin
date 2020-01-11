@@ -3,6 +3,7 @@ package ru.otus.homework.ui.stage.question;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.controller.question.QuestionController;
 import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.QuestionDto;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Service
 public class QuestionStageImpl implements QuestionStage {
     private static final Logger LOGGER = LogManager.getLogger(QuestionStageImpl.class);
 

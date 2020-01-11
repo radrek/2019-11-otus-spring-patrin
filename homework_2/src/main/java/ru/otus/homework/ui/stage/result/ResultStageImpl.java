@@ -2,6 +2,7 @@ package ru.otus.homework.ui.stage.result;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.controller.checker.CheckerController;
 import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.ResultDto;
@@ -10,6 +11,7 @@ import ru.otus.homework.ui.stage.user.additional.User;
 
 import java.util.List;
 
+@Service
 public class ResultStageImpl implements ResultStage {
     private static final Logger LOGGER = LogManager.getLogger(ResultStageImpl.class);
 
