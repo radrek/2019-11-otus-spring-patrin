@@ -9,6 +9,7 @@ import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.greeting.GreetingStage;
 import ru.otus.homework.ui.stage.greeting.GreetingStageImpl;
+import ru.otus.homework.ui.stage.language.LanguageStage;
 import ru.otus.homework.ui.stage.question.QuestionStage;
 import ru.otus.homework.ui.stage.question.QuestionStageImpl;
 import ru.otus.homework.ui.stage.result.ResultStage;
@@ -26,33 +27,29 @@ public class UserInterfaceImpl implements UserInterface {
     private final QuestionController questionController;
     private final CheckerController checkerController;
     private final Mediator mediator;
+    private final LanguageStage languageStage;
 
     public UserInterfaceImpl(QuestionController questionController, CheckerController checkerController,
-                             Mediator mediator) {
+                             Mediator mediator, LanguageStage languageStage) {
         this.questionController = questionController;
         this.checkerController = checkerController;
         this.mediator = mediator;
+        this.languageStage = languageStage;
     }
 
     @Override
     public void start() {
         LOGGER.info("Start user interface");
+        chooseLanguage();
         showGreeting();
         User user = getUser();
         List<AnswerDto> answers = askQuestions();
         showResults(user, answers);
     }
 
-    private void showResults(User user, List<AnswerDto> answers) {
-        LOGGER.debug("Show results (answers count = {})", answers.size());
-        ResultStage resultStage = new ResultStageImpl(checkerController, mediator);
-        resultStage.checkAnswersOnCorrect(user, answers);
-    }
-
-    private List<AnswerDto> askQuestions() {
-        LOGGER.debug("Ask questions");
-        QuestionStage questionStage = new QuestionStageImpl(questionController, mediator);
-        return questionStage.askQuestions();
+    private void chooseLanguage() {
+        LOGGER.debug("Choose language");
+        languageStage.chooseLanguage();
     }
 
     private void showGreeting() {

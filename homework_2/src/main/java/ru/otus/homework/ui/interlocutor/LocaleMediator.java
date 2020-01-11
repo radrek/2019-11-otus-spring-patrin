@@ -54,7 +54,7 @@ public class LocaleMediator implements Mediator {
             if (Strings.isNotBlank(result)) {
                 return result;
             }
-            say("Empty string is not allowed.");
+            say("app.empty");
         }
     }
 }
