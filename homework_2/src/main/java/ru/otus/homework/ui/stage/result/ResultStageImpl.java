@@ -8,6 +8,7 @@ import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.ResultDto;
 import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.user.additional.User;
+import ru.otus.homework.ui.util.GeneralUtils;
 
 import java.util.List;
 
@@ -17,17 +18,19 @@ public class ResultStageImpl implements ResultStage {
 
     private final CheckerController checkerController;
     private final Mediator mediator;
+    private final GeneralUtils generalUtils;
 
-    public ResultStageImpl(CheckerController checkerController, Mediator mediator) {
+    public ResultStageImpl(CheckerController checkerController, Mediator mediator, GeneralUtils generalUtils) {
         this.checkerController = checkerController;
         this.mediator = mediator;
+        this.generalUtils = generalUtils;
     }
 
     @Override
     public void checkAnswersOnCorrect(User user, List<AnswerDto> answers) {
         checkOnErrors(user, answers);
         LOGGER.info("Check answers on correct where count answers = {}", answers.size());
-        List<ResultDto> resultDtos = checkerController.checkAnswersOnCorrect(answers);
+        List<ResultDto> resultDtos = checkerController.checkAnswersOnCorrect(answers, generalUtils.getLocale());
         checkResultOnNull(resultDtos);
         showStartMessage(user);
         showResults(resultDtos);
