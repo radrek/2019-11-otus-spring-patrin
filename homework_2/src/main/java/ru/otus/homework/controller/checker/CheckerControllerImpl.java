@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import ru.otus.homework.dto.AnswerDto;
-import ru.otus.homework.dto.ResultDto;
+import ru.otus.homework.dto.result.ResultDto;
 import ru.otus.homework.service.checker.CheckerService;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class CheckerControllerImpl implements CheckerController {
     }
 
     @Override
-    public List<ResultDto> checkAnswersOnCorrect(List<AnswerDto> answers, Locale locale) {
+    public ResultDto checkAnswersOnCorrect(List<AnswerDto> answers, Locale locale) {
         LOGGER.info("Check answers on correct");
         checkOnErrors(answers);
         return checkerService.checkAnswersOnCorrect(answers, locale);
