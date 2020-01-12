@@ -3,12 +3,12 @@ package ru.otus.homework.service.checker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.homework.domain.question.Question;
 import ru.otus.homework.dto.AnswerDto;
-import ru.otus.homework.dto.ResultDto;
+import ru.otus.homework.dto.result.QuestionResult;
+import ru.otus.homework.dto.result.ResultDto;
 import ru.otus.homework.service.checker.additional.Status;
 import ru.otus.homework.service.question.QuestionService;
 
@@ -23,8 +23,8 @@ class CheckerServiceTest {
 
     private static final int NUMBER = 1;
     private static final String ANSWER = "Хорошо";
+    private static final int PASSING_SCORE = 2;
 
-    @InjectMocks
     private CheckerService checkerService;
 
     @Mock
@@ -39,58 +39,99 @@ class CheckerServiceTest {
     void setUp() {
         AnswerDto answer = new AnswerDto(NUMBER, ANSWER);
         this.answers = List.of(answer);
+        checkerService = new CheckerService(questionService, PASSING_SCORE);
     }
 
     @Test
-    void shouldReturnCorrectResultDtoForNotFoundQuestion() {
+    void shouldReturnCorrectQuestionResultForNotFoundQuestion() {
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        List<QuestionResult> results = resultDto.getQuestionResults();
 
         assertThat(results).as("Check result collection on correct if question not found for answer")
                 .hasSize(1)
-                .flatExtracting(ResultDto::getNumber, ResultDto::getStatus)
+                .flatExtracting(QuestionResult::getNumber, QuestionResult::getStatus)
                 .containsExactly(1, Status.QUESTION_NOT_FOUND);
     }
 
     @Test
-    void shouldReturnCorrectResultDtoForCorrectAnswer() {
+    void shouldReturnCorrectQuestionResultForCorrectAnswer() {
         when(question.getCorrectAnswer()).thenReturn(ANSWER);
         when(question.getNumber()).thenReturn(NUMBER);
         when(questionService.getQuestions(Locale.ROOT)).thenReturn(List.of(question));
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        List<QuestionResult> results = resultDto.getQuestionResults();
 
         assertThat(results).as("Check result collection on correct if question  found and answer is correct")
                 .hasSize(1)
-                .flatExtracting(ResultDto::getNumber, ResultDto::getStatus)
+                .flatExtracting(QuestionResult::getNumber, QuestionResult::getStatus)
                 .containsExactly(1, Status.OK);
     }
 
     @Test
-    void shouldReturnCorrectResultDtoForNotCorrectAnswer() {
+    void shouldReturnCorrectQuestionResultsForNotCorrectAnswer() {
         when(question.getCorrectAnswer()).thenReturn("Not correct");
         when(question.getNumber()).thenReturn(NUMBER);
         when(questionService.getQuestions(Locale.ROOT)).thenReturn(List.of(question));
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        List<QuestionResult> results = resultDto.getQuestionResults();
 
         assertThat(results).as("Check result collection on correct if question found and answer is not correct")
                 .hasSize(1)
-                .flatExtracting(ResultDto::getNumber, ResultDto::getStatus)
+                .flatExtracting(QuestionResult::getNumber, QuestionResult::getStatus)
                 .containsExactly(1, Status.FAIL);
     }
 
     @Test
-    void shouldReturnCorrectResultsDto() {
+    void shouldReturnCorrectQuestionResults() {
         List<AnswerDto> answers = List.of(new AnswerDto(NUMBER, ANSWER),
                 new AnswerDto(2, "Нормасик"));
 
-        List<ResultDto> results = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+        List<QuestionResult> results = resultDto.getQuestionResults();
 
         assertThat(results).as("Check result collection on correct if questions not found")
                 .hasSize(2)
-                .flatExtracting(ResultDto::getNumber, ResultDto::getStatus)
+                .flatExtracting(QuestionResult::getNumber, QuestionResult::getStatus)
                 .containsExactly(1, Status.QUESTION_NOT_FOUND,
                         2, Status.QUESTION_NOT_FOUND);
+    }
+
+    @Test
+    void shouldReturnOneScoreForOneCorrectAnswer() {
+        when(question.getCorrectAnswer()).thenReturn(ANSWER);
+        when(question.getNumber()).thenReturn(NUMBER);
+        when(questionService.getQuestions(Locale.ROOT)).thenReturn(List.of(question));
+
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+
+        assertThat(resultDto.getScore())
+                .as("The number of correct answers must be equal to one")
+                .isEqualTo(1);
+    }
+
+    @Test
+    void shouldReturnZeroScoreForNotCorrectAnswer() {
+        when(question.getCorrectAnswer()).thenReturn("Not correct");
+        when(question.getNumber()).thenReturn(NUMBER);
+        when(questionService.getQuestions(Locale.ROOT)).thenReturn(List.of(question));
+
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+
+        assertThat(resultDto.getScore())
+                .as("The number of correct answers must be equal to zero")
+                .isEqualTo(0);
+    }
+
+    @Test
+    void shouldReturnCorrectPassingScore() {
+
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, Locale.ROOT);
+
+        assertThat(resultDto.getPassingScore())
+                .as("Passing score must be equals %d", PASSING_SCORE)
+                .isEqualTo(PASSING_SCORE);
     }
 }
