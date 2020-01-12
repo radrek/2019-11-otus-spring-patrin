@@ -5,7 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.controller.checker.CheckerController;
 import ru.otus.homework.dto.AnswerDto;
-import ru.otus.homework.dto.ResultDto;
+import ru.otus.homework.dto.result.QuestionResult;
+import ru.otus.homework.dto.result.ResultDto;
 import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.user.additional.User;
 import ru.otus.homework.ui.util.GeneralUtils;
@@ -30,10 +31,10 @@ public class ResultStageImpl implements ResultStage {
     public void checkAnswersOnCorrect(User user, List<AnswerDto> answers) {
         checkOnErrors(user, answers);
         LOGGER.info("Check answers on correct where count answers = {}", answers.size());
-        List<ResultDto> resultDtos = checkerController.checkAnswersOnCorrect(answers, generalUtils.getLocale());
-        checkResultOnNull(resultDtos);
+        ResultDto result = checkerController.checkAnswersOnCorrect(answers, generalUtils.getLocale());
+        checkResultOnNull(result.getQuestionResults());
         showStartMessage(user);
-        showResults(resultDtos);
+        showResult(result);
     }
 
     private void checkOnErrors(User user, List<AnswerDto> answers) {
@@ -47,8 +48,8 @@ public class ResultStageImpl implements ResultStage {
         }
     }
 
-    private void checkResultOnNull(List<ResultDto> resultDtos) {
-        if (resultDtos == null) {
+    private void checkResultOnNull(List<QuestionResult> questionResults) {
+        if (questionResults == null) {
             LOGGER.error("Results can't be null");
             throw new NullPointerException("Results can't be null");
         }
@@ -58,24 +59,40 @@ public class ResultStageImpl implements ResultStage {
         mediator.say("result.message", user.getFirstName(), user.getSecondName());
     }
 
-    private void showResults(List<ResultDto> resultDtos) {
-        LOGGER.debug("Results count = {}", resultDtos.size());
-        resultDtos
+    private void showResult(ResultDto result) {
+        List<QuestionResult> questionResults = result.getQuestionResults();
+        showQuestionResults(questionResults);
+        showPassingResult(result.getPassingScore(), result.getScore());
+    }
+
+    private void showQuestionResults(List<QuestionResult> questionResults) {
+        LOGGER.debug("Results count = {}", questionResults.size());
+        questionResults
                 .forEach(resultDto -> {
-                    String result;
+                    String resultCode;
                     switch (resultDto.getStatus()) {
                         case OK:
-                            result = "result.correct";
+                            resultCode = "result.correct";
                             break;
                         case FAIL:
-                            result = "result.fail";
+                            resultCode = "result.fail";
                             break;
                         case QUESTION_NOT_FOUND:
                         default:
-                            result = "result.question.unknown";
+                            resultCode = "result.question.unknown";
                             break;
                     }
-                    mediator.say(result, resultDto.getNumber());
+                    mediator.say(resultCode, resultDto.getNumber());
                 });
+    }
+
+    private void showPassingResult(int passingScore, int score) {
+        String resultMessage;
+        if (passingScore > score) {
+            resultMessage = "result.passing.fail";
+        } else {
+            resultMessage = "result.passing.success";
+        }
+        mediator.say(resultMessage, score);
     }
 }
