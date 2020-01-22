@@ -9,5 +9,5 @@ public interface Mediator {
 
     void askWithoutAnswer(String question, Object... args);
 
-    String KeepAskingUntilGetAnswer(String question, Object... args);
+    String keepAskingUntilGetAnswer(String question, Object... args);
 }

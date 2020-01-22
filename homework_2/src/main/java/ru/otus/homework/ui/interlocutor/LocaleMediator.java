@@ -47,7 +47,7 @@ public class LocaleMediator implements Mediator {
     }
 
     @Override
-    public String KeepAskingUntilGetAnswer(String question, Object... args) {
+    public String keepAskingUntilGetAnswer(String question, Object... args) {
         String result;
         while (true) {
             result = ask(question, args);

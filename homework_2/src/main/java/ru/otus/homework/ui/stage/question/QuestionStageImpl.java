@@ -75,7 +75,7 @@ public class QuestionStageImpl implements QuestionStage {
     private String getUserAnswer(Collection<String> answers) {
         String userAnswer;
         while (true) {
-            userAnswer = mediator.KeepAskingUntilGetAnswer("question.answers.answer");
+            userAnswer = mediator.keepAskingUntilGetAnswer("question.answers.answer");
             if (matchUserAnswer(answers, userAnswer)) {
                 return userAnswer;
             } else {

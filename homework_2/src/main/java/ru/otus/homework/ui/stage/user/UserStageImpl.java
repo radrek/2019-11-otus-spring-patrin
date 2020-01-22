@@ -25,6 +25,6 @@ public class UserStageImpl implements UserStage {
     }
 
     private String getPartName(String part) {
-        return mediator.KeepAskingUntilGetAnswer(part);
+        return mediator.keepAskingUntilGetAnswer(part);
     }
 }
