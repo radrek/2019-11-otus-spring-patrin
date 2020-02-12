@@ -32,7 +32,7 @@ public class QuestionStageImpl implements QuestionStage {
     @Override
     public List<AnswerDto> askQuestions() {
         LOGGER.info("Ask questions");
-        List<QuestionDto> questions = questionController.getQuestions(generalUtils.getLocale());
+        List<QuestionDto> questions = questionController.getQuestions(generalUtils.getUserLocale());
         checkQuestionsOnNull(questions);
         return askQuestions(questions);
     }

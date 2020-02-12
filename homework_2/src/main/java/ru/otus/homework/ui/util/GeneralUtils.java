@@ -1,5 +1,6 @@
 package ru.otus.homework.ui.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
@@ -7,17 +8,24 @@ import java.util.Locale;
 @Service
 public class GeneralUtils {
 
-    private Locale locale;
+    private Locale userLocale;
 
-    public GeneralUtils() {
-        this.locale = Locale.getDefault();
+    private Locale appLocale;
+
+    public GeneralUtils(@Value("${default.language}") String defaultLanguage) {
+        this.userLocale = Locale.getDefault();
+        this.appLocale = new Locale(defaultLanguage);
     }
 
-    public Locale getLocale() {
-        return locale;
+    public Locale getUserLocale() {
+        return userLocale;
     }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setUserLocale(Locale userLocale) {
+        this.userLocale = userLocale;
+    }
+
+    public Locale getAppLocale() {
+        return appLocale;
     }
 }

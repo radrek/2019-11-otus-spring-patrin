@@ -16,7 +16,7 @@ import java.util.Objects;
 @Service
 public class LanguageStageImpl implements LanguageStage {
     private static final Logger LOGGER = LogManager.getLogger(LanguageStageImpl.class);
-    public static final String DEFAULT_LANGUAGE_CODE = "0";
+    private static final String DEFAULT_LANGUAGE_CODE = "0";
 
     private final Mediator mediator;
     private final GeneralUtils generalUtils;
@@ -34,14 +34,14 @@ public class LanguageStageImpl implements LanguageStage {
         LOGGER.info("Choose language");
 
         AllowedLanguage defaultLanguage = getDefaultAllowedLanguage();
-        generalUtils.setLocale(defaultLanguage.getLocale());
+        generalUtils.setUserLocale(defaultLanguage.getLocale());
 
         AllowedLanguage finalLanguage = chooseLanguage(defaultLanguage);
-        generalUtils.setLocale(finalLanguage.getLocale());
+        generalUtils.setUserLocale(finalLanguage.getLocale());
     }
 
     private AllowedLanguage getDefaultAllowedLanguage() {
-        Locale userLocale = generalUtils.getLocale();
+        Locale userLocale = generalUtils.getUserLocale();
         AllowedLanguage language = EnumUtils.getEnumIgnoreCase(AllowedLanguage.class, userLocale.getLanguage());
         return Objects.requireNonNullElse(language, AllowedLanguage.valueOf(defaultLanguage));
     }

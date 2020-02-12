@@ -31,7 +31,7 @@ public class ResultStageImpl implements ResultStage {
     public void checkAnswersOnCorrect(User user, List<AnswerDto> answers) {
         checkOnErrors(user, answers);
         LOGGER.info("Check answers on correct where count answers = {}", answers.size());
-        ResultDto result = checkerController.checkAnswersOnCorrect(answers, generalUtils.getLocale());
+        ResultDto result = checkerController.checkAnswersOnCorrect(answers, generalUtils.getUserLocale());
         checkResultOnNull(result.getQuestionResults());
         showStartMessage(user);
         showResult(result);
