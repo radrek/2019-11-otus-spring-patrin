@@ -20,19 +20,21 @@ import java.util.regex.Pattern;
 public class LocaleUtils {
     private static final Logger LOGGER = LogManager.getLogger(LocaleUtils.class);
     private static final String BUNDLE_FILE_NAME_PATTERN = "messages_([A-Za-z]{2,}).properties$";
-    private static final String BUNDLE_FILE_PATH_PATTERN = "classpath:/i18n/messages_*.properties";
+
+    private final Locale appLocale;
+    private final ResourceLoader resourceLoader;
+    private final String bundleFilePathPattern;
 
     private Locale userLocale;
 
-    private Locale appLocale;
 
-    private ResourceLoader resourceLoader;
-
-    public LocaleUtils(@Value("${default.language}") String defaultLanguage, ResourceLoader resourceLoader) {
+    public LocaleUtils(@Value("${language.default}") String defaultLanguage,
+                       @Value("${language.bundle.path.pattern}") String bundleFilePathPattern,
+                       ResourceLoader resourceLoader) {
         this.userLocale = Locale.getDefault();
         this.appLocale = new Locale(defaultLanguage);
         this.resourceLoader = resourceLoader;
-        getAllowedLocales();
+        this.bundleFilePathPattern = bundleFilePathPattern;
     }
 
     public Locale getUserLocale() {
@@ -72,7 +74,7 @@ public class LocaleUtils {
     private Resource[] loadBundleResources() {
         try {
             return ResourcePatternUtils.getResourcePatternResolver(resourceLoader)
-                    .getResources(BUNDLE_FILE_PATH_PATTERN);
+                    .getResources(bundleFilePathPattern);
         } catch (Exception e) {
             LOGGER.error("Can't load resources", e);
         }

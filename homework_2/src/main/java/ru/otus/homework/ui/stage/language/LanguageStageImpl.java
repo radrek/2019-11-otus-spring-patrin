@@ -26,36 +26,36 @@ public class LanguageStageImpl implements LanguageStage {
     public void chooseLanguage() {
         LOGGER.info("Choose language");
 
-        Locale finalLanguage = chooseLanguage(localeUtils.getUserLocale());
-        localeUtils.setUserLocale(finalLanguage);
+        Locale finalLocale = chooseLocale(localeUtils.getUserLocale());
+        localeUtils.setUserLocale(finalLocale);
     }
 
-    private Locale chooseLanguage(Locale defaultLanguage) {
+    private Locale chooseLocale(Locale userLocale) {
         mediator.say("language.choose");
-        showAllowedLanguages(defaultLanguage);
-        return getFinalLanguage(defaultLanguage);
+        showAllowedLanguages(userLocale);
+        return getFinalLocale(userLocale);
     }
 
-    private void showAllowedLanguages(Locale defaultLanguage) {
-        localeUtils.getAllowedLocales().forEach(language -> {
+    private void showAllowedLanguages(Locale userLocale) {
+        localeUtils.getAllowedLocales().forEach(locale -> {
             String messageCode;
-            if (defaultLanguage.getLanguage().equals(language.getLanguage())) {
+            if (userLocale.getLanguage().equals(locale.getLanguage())) {
                 messageCode = "language.variant.default";
             } else {
-                messageCode = String.format("language.variant.%s", language.getLanguage().toLowerCase());
+                messageCode = String.format("language.variant.%s", locale.getLanguage().toLowerCase());
             }
             mediator.say(messageCode);
         });
     }
 
-    private Locale getFinalLanguage(Locale defaultLanguage) {
-        Locale finalLanguage = null;
-        while (finalLanguage == null) {
+    private Locale getFinalLocale(Locale userLocale) {
+        Locale finalLocale = null;
+        while (finalLocale == null) {
             String codeOrZero = mediator.ask("language.input.message");
             if (DEFAULT_LANGUAGE_CODE.equals(codeOrZero)) {
-                finalLanguage = defaultLanguage;
+                finalLocale = userLocale;
             } else if (isAllowedLanguageCode(codeOrZero)) {
-                finalLanguage = localeUtils.getAllowedLocales()
+                finalLocale = localeUtils.getAllowedLocales()
                         .stream()
                         .filter(locale -> locale.getLanguage().equals(codeOrZero.toLowerCase()))
                         .findAny()
@@ -64,7 +64,7 @@ public class LanguageStageImpl implements LanguageStage {
                 mediator.say("language.input.wrong");
             }
         }
-        return finalLanguage;
+        return finalLocale;
     }
 
     private boolean isAllowedLanguageCode(String codeOrZero) {
