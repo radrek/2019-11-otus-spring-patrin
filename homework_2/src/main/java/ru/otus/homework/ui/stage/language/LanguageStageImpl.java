@@ -1,17 +1,12 @@
 package ru.otus.homework.ui.stage.language;
 
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.ui.interlocutor.Mediator;
-import ru.otus.homework.ui.stage.language.additional.AllowedLanguage;
-import ru.otus.homework.ui.util.GeneralUtils;
+import ru.otus.homework.ui.util.LocaleUtils;
 
-import java.util.Arrays;
 import java.util.Locale;
-import java.util.Objects;
 
 @Service
 public class LanguageStageImpl implements LanguageStage {
@@ -19,64 +14,60 @@ public class LanguageStageImpl implements LanguageStage {
     private static final String DEFAULT_LANGUAGE_CODE = "0";
 
     private final Mediator mediator;
-    private final GeneralUtils generalUtils;
-    private final String defaultLanguage;
+    private final LocaleUtils localeUtils;
 
 
-    public LanguageStageImpl(Mediator mediator, GeneralUtils generalUtils, @Value("${default.language}") String language) {
+    public LanguageStageImpl(Mediator mediator, LocaleUtils localeUtils) {
         this.mediator = mediator;
-        this.generalUtils = generalUtils;
-        this.defaultLanguage = language;
+        this.localeUtils = localeUtils;
     }
 
     @Override
     public void chooseLanguage() {
         LOGGER.info("Choose language");
 
-        AllowedLanguage defaultLanguage = getDefaultAllowedLanguage();
-        generalUtils.setUserLocale(defaultLanguage.getLocale());
-
-        AllowedLanguage finalLanguage = chooseLanguage(defaultLanguage);
-        generalUtils.setUserLocale(finalLanguage.getLocale());
+        Locale finalLanguage = chooseLanguage(localeUtils.getUserLocale());
+        localeUtils.setUserLocale(finalLanguage);
     }
 
-    private AllowedLanguage getDefaultAllowedLanguage() {
-        Locale userLocale = generalUtils.getUserLocale();
-        AllowedLanguage language = EnumUtils.getEnumIgnoreCase(AllowedLanguage.class, userLocale.getLanguage());
-        return Objects.requireNonNullElse(language, AllowedLanguage.valueOf(defaultLanguage));
-    }
-
-    private AllowedLanguage chooseLanguage(AllowedLanguage defaultLanguage) {
+    private Locale chooseLanguage(Locale defaultLanguage) {
         mediator.say("language.choose");
         showAllowedLanguages(defaultLanguage);
         return getFinalLanguage(defaultLanguage);
     }
 
-    private void showAllowedLanguages(AllowedLanguage defaultLanguage) {
-        Arrays.stream(AllowedLanguage.values()).forEach(language -> {
+    private void showAllowedLanguages(Locale defaultLanguage) {
+        localeUtils.getAllowedLocales().forEach(language -> {
             String messageCode;
-            if (defaultLanguage.equals(language)) {
+            if (defaultLanguage.getLanguage().equals(language.getLanguage())) {
                 messageCode = "language.variant.default";
             } else {
-                messageCode = "language.variant";
+                messageCode = String.format("language.variant.%s", language.getLanguage().toLowerCase());
             }
-            mediator.say(messageCode, language.getLanguageName(), language.name());
+            mediator.say(messageCode);
         });
     }
 
-    private AllowedLanguage getFinalLanguage(AllowedLanguage defaultLanguage) {
-        AllowedLanguage finalLanguage = null;
+    private Locale getFinalLanguage(Locale defaultLanguage) {
+        Locale finalLanguage = null;
         while (finalLanguage == null) {
-            String codeOrZero = mediator.ask("language.input.message", defaultLanguage.getLanguageName());
+            String codeOrZero = mediator.ask("language.input.message");
             if (DEFAULT_LANGUAGE_CODE.equals(codeOrZero)) {
                 finalLanguage = defaultLanguage;
+            } else if (isAllowedLanguageCode(codeOrZero)) {
+                finalLanguage = localeUtils.getAllowedLocales()
+                        .stream()
+                        .filter(locale -> locale.getLanguage().equals(codeOrZero.toLowerCase()))
+                        .findAny()
+                        .orElse(null);
             } else {
-                finalLanguage = EnumUtils.getEnumIgnoreCase(AllowedLanguage.class, codeOrZero);
-            }
-            if (finalLanguage == null) {
-                mediator.say("language.input.wrong", defaultLanguage.getLanguageName());
+                mediator.say("language.input.wrong");
             }
         }
         return finalLanguage;
+    }
+
+    private boolean isAllowedLanguageCode(String codeOrZero) {
+        return localeUtils.getAllowedLocales().stream().anyMatch(locale -> locale.getLanguage().equals(codeOrZero.toLowerCase()));
     }
 }

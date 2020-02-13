@@ -9,7 +9,7 @@ import ru.otus.homework.dto.AnswerDto;
 import ru.otus.homework.dto.QuestionDto;
 import ru.otus.homework.ui.interlocutor.Mediator;
 import ru.otus.homework.ui.stage.question.additional.QuestionType;
-import ru.otus.homework.ui.util.GeneralUtils;
+import ru.otus.homework.ui.util.LocaleUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,18 +21,18 @@ public class QuestionStageImpl implements QuestionStage {
 
     private final QuestionController questionController;
     private final Mediator mediator;
-    private final GeneralUtils generalUtils;
+    private final LocaleUtils localeUtils;
 
-    public QuestionStageImpl(QuestionController questionController, Mediator mediator, GeneralUtils generalUtils) {
+    public QuestionStageImpl(QuestionController questionController, Mediator mediator, LocaleUtils localeUtils) {
         this.questionController = questionController;
         this.mediator = mediator;
-        this.generalUtils = generalUtils;
+        this.localeUtils = localeUtils;
     }
 
     @Override
     public List<AnswerDto> askQuestions() {
         LOGGER.info("Ask questions");
-        List<QuestionDto> questions = questionController.getQuestions(generalUtils.getUserLocale());
+        List<QuestionDto> questions = questionController.getQuestions(localeUtils.getUserLocale());
         checkQuestionsOnNull(questions);
         return askQuestions(questions);
     }

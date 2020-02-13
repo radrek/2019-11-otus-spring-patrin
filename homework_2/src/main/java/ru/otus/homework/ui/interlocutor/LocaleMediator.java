@@ -6,19 +6,19 @@ import org.springframework.stereotype.Service;
 import ru.otus.homework.ui.interlocutor.additional.LocaleMessageSourceResolvable;
 import ru.otus.homework.ui.interlocutor.io.input.Input;
 import ru.otus.homework.ui.interlocutor.io.output.Output;
-import ru.otus.homework.ui.util.GeneralUtils;
+import ru.otus.homework.ui.util.LocaleUtils;
 
 @Service
 public class LocaleMediator implements Mediator {
     private final Input input;
     private final Output output;
-    private final GeneralUtils utils;
+    private final LocaleUtils localeUtils;
     private final MessageSource messageSource;
 
-    public LocaleMediator(Input input, Output output, GeneralUtils utils, MessageSource messageSource) {
+    public LocaleMediator(Input input, Output output, LocaleUtils localeUtils, MessageSource messageSource) {
         this.input = input;
         this.output = output;
-        this.utils = utils;
+        this.localeUtils = localeUtils;
         this.messageSource = messageSource;
     }
 
@@ -57,7 +57,7 @@ public class LocaleMediator implements Mediator {
 
     private String getLocaleMessage(String message, Object... args) {
         LocaleMessageSourceResolvable messageSourceResolvable =
-                new LocaleMessageSourceResolvable(messageSource, message, args, utils.getAppLocale());
-        return messageSource.getMessage(messageSourceResolvable, utils.getUserLocale());
+                new LocaleMessageSourceResolvable(messageSource, message, args, localeUtils.getAppLocale());
+        return messageSource.getMessage(messageSourceResolvable, localeUtils.getUserLocale());
     }
 }
