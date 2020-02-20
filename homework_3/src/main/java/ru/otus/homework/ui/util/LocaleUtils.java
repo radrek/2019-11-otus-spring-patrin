@@ -3,11 +3,11 @@ package ru.otus.homework.ui.util;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.stereotype.Service;
+import ru.otus.homework.ui.stage.language.LanguageSettings;
 import ru.otus.homework.ui.stage.language.exception.NotAllowedLanguagesException;
 
 import java.util.ArrayList;
@@ -28,13 +28,12 @@ public class LocaleUtils {
     private Locale userLocale;
 
 
-    public LocaleUtils(@Value("${language.default}") String defaultLanguage,
-                       @Value("${language.bundle.path.pattern}") String bundleFilePathPattern,
+    public LocaleUtils(LanguageSettings languageSettings,
                        ResourceLoader resourceLoader) {
         this.userLocale = Locale.getDefault();
-        this.appLocale = new Locale(defaultLanguage);
+        this.appLocale = new Locale(languageSettings.getDefaultValue());
         this.resourceLoader = resourceLoader;
-        this.bundleFilePathPattern = bundleFilePathPattern;
+        this.bundleFilePathPattern = languageSettings.getBundlePathPattern();
     }
 
     public Locale getUserLocale() {

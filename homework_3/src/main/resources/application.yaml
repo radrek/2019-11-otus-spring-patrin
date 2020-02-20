@@ -1,0 +1,10 @@
+csv:
+  path-template: /questions/questions_%s.csv
+language:
+  default-value: en
+  bundle-path-pattern: classpath:/i18n/messages_*.properties
+spring:
+  messages:
+    basename: i18n.messages
+checker:
+  passing-score: 2

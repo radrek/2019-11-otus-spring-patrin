@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.homework.checker.CheckerService;
+import ru.otus.homework.checker.CheckerSettings;
 import ru.otus.homework.checker.additional.Status;
 import ru.otus.homework.checker.dto.AnswerDto;
 import ru.otus.homework.checker.dto.ResultDto;
@@ -40,7 +41,11 @@ class CheckerServiceTest {
     void setUp() {
         AnswerDto answer = new AnswerDto(NUMBER, ANSWER);
         this.answers = List.of(answer);
-        checkerService = new CheckerService(questionService, PASSING_SCORE);
+
+        CheckerSettings checkerSettings = new CheckerSettings();
+        checkerSettings.setPassingScore(PASSING_SCORE);
+
+        checkerService = new CheckerService(questionService, checkerSettings);
     }
 
     @Test

@@ -3,7 +3,6 @@ package ru.otus.homework.checker;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.homework.checker.additional.Status;
 import ru.otus.homework.checker.dto.AnswerDto;
@@ -24,9 +23,9 @@ public class CheckerService {
     private final QuestionService questionService;
     private final int passingScore;
 
-    public CheckerService(QuestionService questionService, @Value("${passing.score}") int passingScore) {
+    public CheckerService(QuestionService questionService, CheckerSettings settings) {
         this.questionService = questionService;
-        this.passingScore = passingScore;
+        this.passingScore = settings.getPassingScore();
     }
 
     public ResultDto checkAnswersOnCorrect(List<AnswerDto> answers, Locale locale) {
