@@ -16,12 +16,12 @@ class CsvQuestionReaderTest {
     private CsvQuestionReader csvQuestionReader;
 
     @Test
-    void shouldReturnEmptyQuestionCollectionIfThrowException() {
-        csvQuestionReader = new CsvQuestionReader("", DEFAULT_LANGUAGE);
+    void shouldReturnNullIfMethodThrowException() {
+        csvQuestionReader = new CsvQuestionReader(null, null);
 
         List<Question> questions = csvQuestionReader.readQuestions(Locale.ENGLISH);
 
-        assertThat(questions).as("Check collection on empty if method throw exception")
+        assertThat(questions).as("Check collection on null if method throw exception")
                 .isNull();
     }
 

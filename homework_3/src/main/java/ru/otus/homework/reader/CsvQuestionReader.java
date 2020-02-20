@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import ru.otus.homework.question.MultipleChoiceQuestion;
 import ru.otus.homework.question.Question;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,8 +33,8 @@ public class CsvQuestionReader implements QuestionReader {
     public List<Question> readQuestions(Locale locale) {
         LOGGER.info("Read questions from csv");
         try {
-            File csv = getCsvFile(locale);
-            return new CsvToBeanBuilder<Question>(new FileReader(csv))
+            Reader csv = getCsvFile(locale);
+            return new CsvToBeanBuilder<Question>(csv)
                     .withSeparator(';')
                     .withType(MultipleChoiceQuestion.class)
                     .build().parse();
@@ -44,16 +44,17 @@ public class CsvQuestionReader implements QuestionReader {
         return null;
     }
 
-    private File getCsvFile(Locale locale) throws IOException {
-        File csv = null;
+    private Reader getCsvFile(Locale locale) throws IOException {
+        Reader csv = null;
         if (locale != null) {
             ClassPathResource csvResource = new ClassPathResource(getCsvPath(locale));
-            if (csvResource.exists()) {
-                csv = csvResource.getFile();
+            if (csvResource.exists() && csvResource.isFile()) {
+                csv = new InputStreamReader(csvResource.getInputStream());
             }
         }
         if (csv == null) {
-            csv = new ClassPathResource(getDefaultCsvPath()).getFile();
+            ClassPathResource defaultCsvResource = new ClassPathResource(getDefaultCsvPath());
+            csv = new InputStreamReader(defaultCsvResource.getInputStream());
         }
         return csv;
     }
