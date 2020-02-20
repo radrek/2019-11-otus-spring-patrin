@@ -1,8 +1,10 @@
 package ru.otus.homework.service.question.reader;
 
 import org.junit.jupiter.api.Test;
+import ru.otus.homework.language.DefaultLanguageSettings;
 import ru.otus.homework.question.Question;
 import ru.otus.homework.reader.CsvQuestionReader;
+import ru.otus.homework.reader.CsvSettings;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,7 +19,8 @@ class CsvQuestionReaderTest {
 
     @Test
     void shouldReturnNullIfMethodThrowException() {
-        csvQuestionReader = new CsvQuestionReader(null, null);
+        csvQuestionReader = new CsvQuestionReader(getCsvSettings(null),
+                getLanguageSettings(DEFAULT_LANGUAGE));
 
         List<Question> questions = csvQuestionReader.readQuestions(Locale.ENGLISH);
 
@@ -26,8 +29,9 @@ class CsvQuestionReaderTest {
     }
 
     @Test
-    void shouldReturnEmptyQuestionCollectionIfFileNotFoundOrEmpty() {
-        csvQuestionReader = new CsvQuestionReader("", DEFAULT_LANGUAGE);
+    void shouldReturnEmptyQuestionCollectionIfFileIsEmpty() {
+        csvQuestionReader = new CsvQuestionReader(getCsvSettings(TEST_CSV_PATH),
+                getLanguageSettings("empty"));
 
         List<Question> questions = csvQuestionReader.readQuestions(Locale.ENGLISH);
 
@@ -37,7 +41,8 @@ class CsvQuestionReaderTest {
 
     @Test
     void shouldReturnCorrectQuestionCollection() {
-        csvQuestionReader = new CsvQuestionReader(TEST_CSV_PATH, DEFAULT_LANGUAGE);
+        csvQuestionReader = new CsvQuestionReader(getCsvSettings(TEST_CSV_PATH),
+                getLanguageSettings(DEFAULT_LANGUAGE));
         Locale locale = new Locale(DEFAULT_LANGUAGE);
 
         List<Question> questions = csvQuestionReader.readQuestions(locale);
@@ -54,7 +59,8 @@ class CsvQuestionReaderTest {
 
     @Test
     void shouldReturnDefaultQuestionCollectionForNotAllowedLocale() {
-        csvQuestionReader = new CsvQuestionReader(TEST_CSV_PATH, DEFAULT_LANGUAGE);
+        csvQuestionReader = new CsvQuestionReader(getCsvSettings(TEST_CSV_PATH),
+                getLanguageSettings(DEFAULT_LANGUAGE));
         Locale locale = Locale.JAPANESE;
 
         List<Question> questions = csvQuestionReader.readQuestions(locale);
@@ -67,5 +73,17 @@ class CsvQuestionReaderTest {
                 .contains(1, "Как дела?", "Хорошо")
                 .as(rowDescriptionTemplate, "second")
                 .contains(2, "Удачно?", "Да");
+    }
+
+    private DefaultLanguageSettings getLanguageSettings(String defaultLanguage) {
+        DefaultLanguageSettings defaultLanguageSettings = new DefaultLanguageSettings();
+        defaultLanguageSettings.setDefaultValue(defaultLanguage);
+        return defaultLanguageSettings;
+    }
+
+    private CsvSettings getCsvSettings(String pathTemplate) {
+        CsvSettings csvSettings = new CsvSettings();
+        csvSettings.setPathTemplate(pathTemplate);
+        return csvSettings;
     }
 }

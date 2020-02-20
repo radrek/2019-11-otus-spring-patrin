@@ -3,9 +3,9 @@ package ru.otus.homework.reader;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import ru.otus.homework.language.DefaultLanguageSettings;
 import ru.otus.homework.question.MultipleChoiceQuestion;
 import ru.otus.homework.question.Question;
 
@@ -23,10 +23,9 @@ public class CsvQuestionReader implements QuestionReader {
     private final String csvPathTemplate;
     private final String defaultLanguage;
 
-    public CsvQuestionReader(@Value("${csv.path.template}") String csvPathTemplate,
-                             @Value("default.language") String defaultLanguage) {
-        this.csvPathTemplate = csvPathTemplate;
-        this.defaultLanguage = defaultLanguage;
+    public CsvQuestionReader(CsvSettings csvSettings, DefaultLanguageSettings settings) {
+        this.csvPathTemplate = csvSettings.getPathTemplate();
+        this.defaultLanguage = settings.getDefaultValue();
     }
 
     @Override
