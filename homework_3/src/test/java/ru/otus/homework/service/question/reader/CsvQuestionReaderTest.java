@@ -26,6 +26,16 @@ class CsvQuestionReaderTest {
     }
 
     @Test
+    void shouldReturnEmptyQuestionCollectionIfFileNotFoundOrEmpty() {
+        csvQuestionReader = new CsvQuestionReader("", DEFAULT_LANGUAGE);
+
+        List<Question> questions = csvQuestionReader.readQuestions(Locale.ENGLISH);
+
+        assertThat(questions).as("Check collection on empty if csv file not found or empty")
+                .isEmpty();
+    }
+
+    @Test
     void shouldReturnCorrectQuestionCollection() {
         csvQuestionReader = new CsvQuestionReader(TEST_CSV_PATH, DEFAULT_LANGUAGE);
         Locale locale = new Locale(DEFAULT_LANGUAGE);
