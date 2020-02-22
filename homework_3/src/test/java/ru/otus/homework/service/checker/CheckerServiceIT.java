@@ -83,4 +83,30 @@ class CheckerServiceIT {
                 .contains(tuple(1, Status.OK),
                         tuple(2, Status.FAIL));
     }
+
+    @Test
+    void mustNotPasseTestBecauseAnswersHasDuplicates() {
+        AnswerDto firstAnswer = new AnswerDto(1, "Хорошо");
+        AnswerDto secondAnswer = new AnswerDto(1, "Хорошо");
+
+        List<AnswerDto> answers = Arrays.asList(firstAnswer, secondAnswer);
+
+        ResultDto resultDto = checkerService.checkAnswersOnCorrect(answers, null);
+
+        assertThat(resultDto)
+                .as("Correct answer count equal %d", 1)
+                .hasFieldOrPropertyWithValue("score", 1)
+
+                .as("PassingScore must be equal to %d", PASSING_SCORE)
+                .hasFieldOrPropertyWithValue("passingScore", PASSING_SCORE)
+
+                .as("Question result count is equal to %d", answers.size())
+                .extracting("questionResults").asList()
+                .hasSize(answers.size())
+
+                .as("Question results must contains two numbers and one statuses 'OK' and one 'DUPLICATE")
+                .extracting("number", "status")
+                .contains(tuple(1, Status.OK),
+                        tuple(1, Status.DUPLICATE));
+    }
 }
