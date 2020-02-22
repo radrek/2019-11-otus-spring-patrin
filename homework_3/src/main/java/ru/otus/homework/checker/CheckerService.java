@@ -11,9 +11,7 @@ import ru.otus.homework.question.Question;
 import ru.otus.homework.question.QuestionResult;
 import ru.otus.homework.question.QuestionService;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,9 +43,13 @@ public class CheckerService {
     private List<QuestionResult> getQuestionResultsAndCountCorrectAnswer(List<AnswerDto> answers,
                                                                          List<Question> questions,
                                                                          ResultDto result) {
+        Set<Integer> questionNumbers = new HashSet<>();
         return answers.stream()
                 .filter(answer -> answer != null && StringUtils.isNotBlank(answer.getAnswer()))
                 .map(answer -> {
+                    if (!questionNumbers.add(answer.getNumber())) {
+                        return new QuestionResult(answer.getNumber(), Status.DUPLICATE);
+                    }
                     QuestionResult questionResult = getQuestionResult(questions, answer);
                     plusOneScoreForCorrectAnswer(result, questionResult);
                     return questionResult;
