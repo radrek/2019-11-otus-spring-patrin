@@ -14,8 +14,8 @@ import ru.otus.homework.ui.stage.user.additional.User;
 import java.util.List;
 
 @Service
-public class UserInterfaceImpl implements UserInterface {
-    private static final Logger LOGGER = LogManager.getLogger(UserInterfaceImpl.class);
+public class UserControllerImpl implements UserController {
+    private static final Logger LOGGER = LogManager.getLogger(UserControllerImpl.class);
 
     private final LanguageStage languageStage;
     private final GreetingStage greetingStage;
@@ -23,11 +23,11 @@ public class UserInterfaceImpl implements UserInterface {
     private final QuestionStage questionStage;
     private final ResultStage resultStage;
 
-    public UserInterfaceImpl(LanguageStage languageStage,
-                             GreetingStage greetingStage,
-                             UserStage userStage,
-                             QuestionStage questionStage,
-                             ResultStage resultStage) {
+    public UserControllerImpl(LanguageStage languageStage,
+                              GreetingStage greetingStage,
+                              UserStage userStage,
+                              QuestionStage questionStage,
+                              ResultStage resultStage) {
         this.languageStage = languageStage;
         this.greetingStage = greetingStage;
         this.userStage = userStage;

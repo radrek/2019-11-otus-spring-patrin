@@ -1,5 +1,5 @@
 package ru.otus.homework.ui;
 
-public interface UserInterface {
+public interface UserController {
     void start();
 }
