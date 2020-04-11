@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
+import ru.otus.homework.user.User;
 import ru.otus.homework.user.UserService;
 
 import java.util.HashMap;
@@ -72,5 +73,32 @@ class AuthorizationControllerImplTest {
         assertThat(resultMessage)
                 .as("Not created duplicate user with same login = %s", LOGIN)
                 .isEqualTo(String.format("User with login = %s already created", LOGIN));
+    }
+
+    @Test
+    void mustReturnNullIfUserNotLogin() {
+        User user = authorizationController.getUser();
+
+        assertThat(user)
+                .as("user must be null, if not login")
+                .isNull();
+    }
+
+    @Test
+    void mustReturnCurrentUser() {
+        String firstName = "Ivan";
+        String secondName = "Ivanov";
+        authorizationController.createUser(LOGIN, firstName, secondName);
+        authorizationController.login(LOGIN);
+
+        User user = authorizationController.getUser();
+
+        assertThat(user)
+                .as("User must be not null if already login")
+                .isNotNull()
+                .as("First name is '%s'", firstName)
+                .hasFieldOrPropertyWithValue("firstName", firstName)
+                .as("Second name is '%s'", secondName)
+                .hasFieldOrPropertyWithValue("secondName", secondName);
     }
 }
