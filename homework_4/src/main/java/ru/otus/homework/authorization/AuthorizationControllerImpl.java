@@ -8,6 +8,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework.authorization.additional.Availabilities;
+import ru.otus.homework.user.User;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -47,6 +48,10 @@ public class AuthorizationControllerImpl implements AuthorizationController {
         } else {
             return String.format("User with login = %s already created", login);
         }
+    }
+
+    public User getUser() {
+        return authorizationService.getCurrentUser();
     }
 
     private Availability isAlreadyLogin() {

@@ -33,4 +33,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         log.info("Create user with login {}", login);
         return userService.createUser(login, firstName, secondName);
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }

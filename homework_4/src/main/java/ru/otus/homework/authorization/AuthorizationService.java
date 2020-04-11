@@ -1,5 +1,7 @@
 package ru.otus.homework.authorization;
 
+import ru.otus.homework.user.User;
+
 public interface AuthorizationService {
     boolean isAlreadyLogin();
 
@@ -8,4 +10,6 @@ public interface AuthorizationService {
     boolean login(String login);
 
     boolean createUser(String login, String firstName, String secondName);
+
+    User getCurrentUser();
 }

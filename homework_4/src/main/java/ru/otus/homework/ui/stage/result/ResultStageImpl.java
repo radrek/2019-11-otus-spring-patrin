@@ -8,7 +8,7 @@ import ru.otus.homework.checker.dto.AnswerDto;
 import ru.otus.homework.checker.dto.ResultDto;
 import ru.otus.homework.question.QuestionResult;
 import ru.otus.homework.ui.interlocutor.Mediator;
-import ru.otus.homework.ui.stage.user.additional.User;
+import ru.otus.homework.ui.stage.user.UserInfo;
 import ru.otus.homework.ui.util.LocaleUtils;
 
 import java.util.List;
@@ -28,17 +28,17 @@ public class ResultStageImpl implements ResultStage {
     }
 
     @Override
-    public void checkAnswersOnCorrect(User user, List<AnswerDto> answers) {
-        checkOnErrors(user, answers);
+    public void checkAnswersOnCorrect(UserInfo userInfo, List<AnswerDto> answers) {
+        checkOnErrors(userInfo, answers);
         LOGGER.info("Check answers on correct where count answers = {}", answers.size());
         ResultDto result = checkerController.checkAnswersOnCorrect(answers, localeUtils.getUserLocale());
         checkResultOnNull(result.getQuestionResults());
-        showStartMessage(user);
+        showStartMessage(userInfo);
         showResult(result);
     }
 
-    private void checkOnErrors(User user, List<AnswerDto> answers) {
-        if (user == null) {
+    private void checkOnErrors(UserInfo userInfo, List<AnswerDto> answers) {
+        if (userInfo == null) {
             LOGGER.error("User can't be null");
             throw new NullPointerException("User can't be null");
         }
@@ -55,8 +55,8 @@ public class ResultStageImpl implements ResultStage {
         }
     }
 
-    private void showStartMessage(User user) {
-        mediator.say("result.message", user.getFirstName(), user.getSecondName());
+    private void showStartMessage(UserInfo userInfo) {
+        mediator.say("result.message", userInfo.getFirstName(), userInfo.getSecondName());
     }
 
     private void showResult(ResultDto result) {
