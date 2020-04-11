@@ -10,5 +10,4 @@ import lombok.Setter;
 public class User {
     private final String firstName;
     private final String secondName;
-    private Integer score;
 }
