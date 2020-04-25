@@ -2,13 +2,13 @@ package ru.otus.homework.question;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import ru.otus.homework.question.dto.QuestionDto;
 
 import java.util.List;
 import java.util.Locale;
 
-@Controller
+@Service
 public class QuestionControllerImpl implements QuestionController {
     private static final Logger LOGGER = LogManager.getLogger(QuestionControllerImpl.class);
 

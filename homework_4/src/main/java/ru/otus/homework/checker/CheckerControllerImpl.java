@@ -2,7 +2,7 @@ package ru.otus.homework.checker;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import ru.otus.homework.checker.dto.AnswerDto;
 import ru.otus.homework.checker.dto.ResultDto;
@@ -10,7 +10,7 @@ import ru.otus.homework.checker.dto.ResultDto;
 import java.util.List;
 import java.util.Locale;
 
-@Controller
+@Service
 public class CheckerControllerImpl implements CheckerController {
     private static final Logger LOGGER = LogManager.getLogger(CheckerControllerImpl.class);
 
