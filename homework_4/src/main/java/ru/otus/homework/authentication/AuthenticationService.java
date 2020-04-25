@@ -1,8 +1,8 @@
-package ru.otus.homework.authorization;
+package ru.otus.homework.authentication;
 
 import ru.otus.homework.user.User;
 
-public interface AuthorizationService {
+public interface AuthenticationService {
     boolean isAlreadyLogin();
 
     void logout();

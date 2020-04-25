@@ -1,4 +1,4 @@
-package ru.otus.homework.authorization.additional;
+package ru.otus.homework.authentication.additional;
 
 import org.springframework.shell.Availability;
 

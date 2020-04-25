@@ -1,8 +1,8 @@
-package ru.otus.homework.authorization;
+package ru.otus.homework.authentication;
 
 import ru.otus.homework.user.User;
 
-public interface AuthorizationController {
+public interface AuthenticationController {
     String login(String login);
 
     String logout();

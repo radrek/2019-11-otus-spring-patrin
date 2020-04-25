@@ -1,4 +1,4 @@
-package ru.otus.homework.authorization;
+package ru.otus.homework.authentication;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -9,7 +9,7 @@ import ru.otus.homework.user.UserService;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class AuthorizationServiceImpl implements AuthorizationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
 
     private User currentUser;

@@ -1,4 +1,4 @@
-package ru.otus.homework.authorization;
+package ru.otus.homework.authentication;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,12 +12,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AuthorizationServiceImplTest {
+class AuthenticationServiceImplTest {
 
     private static final String LOGIN = "login";
 
     @InjectMocks
-    private AuthorizationServiceImpl authorizationService;
+    private AuthenticationServiceImpl authenticationService;
 
     @Mock
     private UserService userService;
@@ -25,9 +25,9 @@ class AuthorizationServiceImplTest {
     @Test
     void mustReturnTrueIfUserLogin() {
         when(userService.getUser(LOGIN)).thenReturn(new User(null, null));
-        authorizationService.login(LOGIN);
+        authenticationService.login(LOGIN);
 
-        boolean result = authorizationService.isAlreadyLogin();
+        boolean result = authenticationService.isAlreadyLogin();
 
         assertThat(result)
                 .as("If user login now, return true")
@@ -36,7 +36,7 @@ class AuthorizationServiceImplTest {
 
     @Test
     void mustReturnFalseIfUserNotLoginNow() {
-        boolean result = authorizationService.isAlreadyLogin();
+        boolean result = authenticationService.isAlreadyLogin();
 
         assertThat(result)
                 .as("If user not login now, return false")
@@ -47,7 +47,7 @@ class AuthorizationServiceImplTest {
     void isSuccessLoginIfUserExists() {
         when(userService.getUser(LOGIN)).thenReturn(new User(null, null));
 
-        boolean result = authorizationService.login(LOGIN);
+        boolean result = authenticationService.login(LOGIN);
 
         assertThat(result)
                 .as("If user exists, return true")
@@ -58,7 +58,7 @@ class AuthorizationServiceImplTest {
     void isFailedLoginIfUserNotExists() {
         when(userService.getUser(LOGIN)).thenReturn(null);
 
-        boolean result = authorizationService.login(LOGIN);
+        boolean result = authenticationService.login(LOGIN);
 
         assertThat(result)
                 .as("If user not exists, return false")
@@ -71,7 +71,7 @@ class AuthorizationServiceImplTest {
         String secondName = "Ivanov";
         when(userService.createUser(LOGIN, firstName, secondName)).thenReturn(true);
 
-        boolean result = authorizationService.createUser(LOGIN, firstName, secondName);
+        boolean result = authenticationService.createUser(LOGIN, firstName, secondName);
 
         assertThat(result)
                 .as("Return true, if user created")
@@ -84,7 +84,7 @@ class AuthorizationServiceImplTest {
         String secondName = "Ivanov";
         when(userService.createUser(LOGIN, firstName, secondName)).thenReturn(false);
 
-        boolean result = authorizationService.createUser(LOGIN, firstName, secondName);
+        boolean result = authenticationService.createUser(LOGIN, firstName, secondName);
 
         assertThat(result)
                 .as("Return false, if user already exists")

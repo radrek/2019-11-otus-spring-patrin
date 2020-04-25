@@ -7,8 +7,8 @@ import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
-import ru.otus.homework.authorization.AuthorizationController;
-import ru.otus.homework.authorization.additional.Availabilities;
+import ru.otus.homework.authentication.AuthenticationController;
+import ru.otus.homework.authentication.additional.Availabilities;
 import ru.otus.homework.checker.dto.AnswerDto;
 import ru.otus.homework.ui.stage.greeting.GreetingStage;
 import ru.otus.homework.ui.stage.language.LanguageStage;
@@ -28,7 +28,7 @@ public class QuestionnaireStarterControllerImpl implements QuestionnaireStarterC
     private final GreetingStage greetingStage;
     private final QuestionStage questionStage;
     private final ResultStage resultStage;
-    private final AuthorizationController authorizationController;
+    private final AuthenticationController authenticationController;
     private UserInfo userInfo;
 
     @ShellMethod(value = "Start questionnaire", key = {"s", "start"})
@@ -43,7 +43,7 @@ public class QuestionnaireStarterControllerImpl implements QuestionnaireStarterC
     }
 
     private Availability isAlreadyLogin() {
-        User user = authorizationController.getUser();
+        User user = authenticationController.getUser();
         if (user != null) {
             userInfo = new UserInfo(user);
             return Availabilities.SUCCESS;

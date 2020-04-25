@@ -1,4 +1,4 @@
-package ru.otus.homework.authorization;
+package ru.otus.homework.authentication;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +13,12 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class AuthorizationControllerImplTest {
+class AuthenticationControllerImplTest {
 
     private static final String LOGIN = "user";
 
     @Autowired
-    private AuthorizationController authorizationController;
+    private AuthenticationController authenticationController;
 
     @Autowired
     private UserService userService;
@@ -30,7 +30,7 @@ class AuthorizationControllerImplTest {
 
     @Test
     void mustLoginFailed() {
-        String resultMessage = authorizationController.login(LOGIN);
+        String resultMessage = authenticationController.login(LOGIN);
 
         assertThat(resultMessage)
                 .as("Login is failed, because user not created")
@@ -39,8 +39,8 @@ class AuthorizationControllerImplTest {
 
     @Test
     void mustLoginSuccess() {
-        authorizationController.createUser(LOGIN, "Ivan", "Ivanov");
-        String resultMessage = authorizationController.login(LOGIN);
+        authenticationController.createUser(LOGIN, "Ivan", "Ivanov");
+        String resultMessage = authenticationController.login(LOGIN);
 
         assertThat(resultMessage)
                 .as("Login is success, because user login")
@@ -49,7 +49,7 @@ class AuthorizationControllerImplTest {
 
     @Test
     void isLogoutSuccess() {
-        String resultMessage = authorizationController.logout();
+        String resultMessage = authenticationController.logout();
 
         assertThat(resultMessage)
                 .as("Logout is success")
@@ -58,7 +58,7 @@ class AuthorizationControllerImplTest {
 
     @Test
     void mustCreateUser() {
-        String resultMessage = authorizationController.createUser(LOGIN, "Ivan", "Ivanov");
+        String resultMessage = authenticationController.createUser(LOGIN, "Ivan", "Ivanov");
 
         assertThat(resultMessage)
                 .as("Created user with login = %s", LOGIN)
@@ -67,8 +67,8 @@ class AuthorizationControllerImplTest {
 
     @Test
     void mustNotCreateDuplicateUserWithSameLogin() {
-        authorizationController.createUser(LOGIN, "Ivan", "Ivanov");
-        String resultMessage = authorizationController.createUser(LOGIN, "Ivan", "Ivanov");
+        authenticationController.createUser(LOGIN, "Ivan", "Ivanov");
+        String resultMessage = authenticationController.createUser(LOGIN, "Ivan", "Ivanov");
 
         assertThat(resultMessage)
                 .as("Not created duplicate user with same login = %s", LOGIN)
@@ -77,7 +77,7 @@ class AuthorizationControllerImplTest {
 
     @Test
     void mustReturnNullIfUserNotLogin() {
-        User user = authorizationController.getUser();
+        User user = authenticationController.getUser();
 
         assertThat(user)
                 .as("user must be null, if not login")
@@ -88,10 +88,10 @@ class AuthorizationControllerImplTest {
     void mustReturnCurrentUser() {
         String firstName = "Ivan";
         String secondName = "Ivanov";
-        authorizationController.createUser(LOGIN, firstName, secondName);
-        authorizationController.login(LOGIN);
+        authenticationController.createUser(LOGIN, firstName, secondName);
+        authenticationController.login(LOGIN);
 
-        User user = authorizationController.getUser();
+        User user = authenticationController.getUser();
 
         assertThat(user)
                 .as("User must be not null if already login")
