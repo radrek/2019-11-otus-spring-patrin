@@ -1,0 +1,19 @@
+
+${AnsiBackground.RED}                      ,----,                                                                                                                                       ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}    ,----..         ,/   .`|                                       ,--,    ,----..             ____                                ,----..                     ,--.${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}   /   /   \      ,`   .'  :             .--.--.                 ,--.'|   /   /   \          ,'  , `.    ,---,.           .---.   /   /   \  ,-.----.      ,--/  /|${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}  /   .     :   ;    ;     /       ,--, /  /    '.            ,--,  | :  /   .     :      ,-+-,.' _ |  ,'  .' |          /. ./|  /   .     : \    /  \  ,---,': / '${AnsiBackground.DEFAULT}
+${AnsiBackground.RED} .   /   ;.  \.'___,/    ,'      ,'_ /||  :  /`. /         ,---.'|  : ' .   /   ;.  \  ,-+-. ;   , ||,---.'   |      .--'.  ' ; .   /   ;.  \;   :    \ :   : '/ / ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}.   ;   /  ` ;|    :     |  .--. |  | :;  |  |--`          |   | : _' |.   ;   /  ` ; ,--.'|'   |  ;||   |   .'     /__./ \ : |.   ;   /  ` ;|   | .\ : |   '   ,  ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED};   |  ; \ ; |;    |.';  ;,'_ /| :  . ||  :  ;_            :   : |.'  |;   |  ; \ ; ||   |  ,', |  '::   :  |-, .--'.  '   \' .;   |  ; \ ; |.   : |: | '   |  /   ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}|   :  | ; | '`----'  |  ||  ' | |  . . \  \    `.         |   ' '  ; :|   :  | ; | '|   | /  | |  ||:   |  ;/|/___/ \ |    ' '|   :  | ; | '|   |  \ : |   ;  ;   ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}.   |  ' ' ' :    '   :  ;|  | ' |  | |  `----.   \        '   |  .'. |.   |  ' ' ' :'   | :  | :  |,|   :   .';   \  \;      :.   |  ' ' ' :|   : .  / :   '   \  ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}'   ;  \; /  |    |   |  ':  | | :  ' ;  __ \  \  |        |   | :  | ''   ;  \; /  |;   . |  ; |--' |   |  |-, \   ;  `      |'   ;  \; /  |;   | |  \ |   |    ' ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED} \   \  ',  /     '   :  ||  ; ' |  | ' /  /`--'  /        '   : |  : ; \   \  ',  / |   : |  | ,    '   :  ;/|  .   \    .\  ; \   \  ',  / |   | ;\  \'   : |.  \${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}  ;   :    /      ;   |.' :  | : ;  ; |'--'.     /         |   | '  ,/   ;   :    /  |   : '  |/     |   |    \   \   \   ' \ |  ;   :    /  :   ' | \.'|   | '_\.'${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}   \   \ .'       '---'   '  :  `--'   \ `--'---'          ;   : ;--'     \   \ .'   ;   | |`-'      |   :   .'    :   '  |--"    \   \ .'   :   : :-'  '   : |    ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}    `---`                 :  ,      .-./                   |   ,/          `---`     |   ;/          |   | ,'       \   \ ;        `---`     |   |.'    ;   |,'    ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}                           `--`----'                       '---'                     '---'           `----'          '---"                   `---'      '---'      ${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}-------------------------------------------------------------------------------------------------------------------------------------------------------------------${AnsiBackground.DEFAULT}
+                                                     VERSION: ${AnsiBackground.GREEN}${application.version}${AnsiBackground.DEFAULT}            APPLICATION: ${AnsiBackground.GREEN}${application.title}${AnsiBackground.DEFAULT}
+${AnsiBackground.RED}-------------------------------------------------------------------------------------------------------------------------------------------------------------------${AnsiBackground.DEFAULT}

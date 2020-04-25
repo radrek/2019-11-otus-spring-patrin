@@ -6,4 +6,6 @@
 <ul>
 <li>Работа 1 - homework_1</li>
 <li>Работа 2 - homework_2</li>
+<li>Работа 3 - homework_3</li>
+<li>Работа 4 - homework_4</li>
 </ul>
